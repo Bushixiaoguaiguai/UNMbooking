@@ -1,0 +1,38 @@
+https://apps.nottingham.edu.my/jw/web/login
+get_by_role("textbox", name="Username")
+get_by_role("textbox", name="Password")
+get_by_role("button", name="Login")
+
+enter Username and Password jump to(same tab)
+https://apps.nottingham.edu.my/jw/web/userview/sport_booking/sport_complex_homepage/_/sport_complex
+
+get_by_role("link", name="Other Facilities Online")
+click and jump to(new tab)
+https://apps.nottingham.edu.my/jw/web/userview/sport_booking/v/_/home
+
+get_by_role("link", name="  Booking Request ")
+get_by_role("link", name="New Booking")
+
+jump to (same tab)
+https://apps.nottingham.edu.my/jw/web/userview/sport_booking/v/_/bookingform
+
+get_by_role("textbox", name="Check-in")
+日历按钮
+get_by_role("textbox", name="Check-out")
+日历按钮
+get_by_role("button", name="Proceed")
+
+click proceed and jump to 
+https://apps.nottingham.edu.my/jw/web/userview/sport_booking/v/_/bookingform?_action=assignmentView&activityId=11078485_1147646_sport_booking_sport_booking_select_facility
+get_by_role("textbox", name="Email *")
+get_by_role("textbox", name="Contact No. *")
+get_by_role("textbox", name="Purpose *")
+locator("#formgrid_field13__164309675394793675031_861253476").get_by_title("Add Rows")
+locator("iframe[name=\"formGridFrame_formgrid_field13__164309675394793675031_861253476\"]").content_frame.get_by_role("button", name="Select Facility")
+locator("iframe[name=\"formGridFrame_formgrid_field13__164309675394793675031_861253476\"]").content_frame.locator("iframe[name=\"popupSelectFrame_popupselect__100698416494793674811_472784952\"]").content_frame.get_by_role("row", name=" Badminton Court 1 Badminton Court").locator("i")
+locator("iframe[name=\"formGridFrame_formgrid_field13__164309675394793675031_861253476\"]").content_frame.locator("iframe[name=\"popupSelectFrame_popupselect__100698416494793674811_472784952\"]").content_frame.get_by_role("button", name="Select Facility")
+locator("iframe[name=\"formGridFrame_formgrid_field13__164309675394793675031_861253476\"]").content_frame.get_by_label("Type of Sports *")
+locator("iframe[name=\"formGridFrame_formgrid_field13__164309675394793675031_861253476\"]").content_frame.get_by_role("button", name="Submit")
+
+locator("label > i")
+get_by_role("button", name="Complete")
