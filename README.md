@@ -1,167 +1,201 @@
-# UNM Sport Booking Helper
+# UNMbooking
 
-这个项目用于打开 University of Nottingham Malaysia 的 Sport Complex booking 页面，并通过 Playwright 自动填写部分预订流程。
+UNMbooking is a small desktop helper for the University of Nottingham Malaysia sport booking flow.
 
-当前脚本会：
+It opens the booking site with Playwright, lets the user choose account, court, date, and time from a simple GUI, and then fills most of the booking form automatically.
 
-- 打开 sport complex booking 页面
-- 如遇到登录页，使用 `.env` 里的账号密码登录
-- 打开 `Other Facilities Online`
-- 进入 `Booking Request` -> `New Booking`
-- 在 GUI 里选择账号、场地、日期、时间和用途
-- 填写 email、contact number、purpose
-- 选择 badminton court 和 sport type
-- 最后根据 `Auto click Complete` 的选择决定是否自动点击 `Complete`
+## What this project does
 
-请只使用自己的学校账号，并遵守学校场地预订规则。
+- Opens the UNM sport complex booking page
+- Logs in with credentials from `.env` if the login page appears
+- Opens `Other Facilities Online`
+- Goes to `Booking Request` -> `New Booking`
+- Lets the user choose:
+  - account
+  - facility
+  - booking date
+  - check-in time
+  - check-out time
+  - purpose
+- Fills the booking form
+- Optionally clicks `Complete` automatically
 
-## 文件说明
+## Project files
 
-- `main.py`：主程序
-- `requirements.txt`：Python 依赖列表
-- `.env.example`：账号配置模板
-- `.env`：你自己的真实账号配置，本地创建，不要提交到 Git
-- `picklocator.txt`：开发时记录过的页面定位信息
+- `main.py`: main application
+- `requirements.txt`: Python dependencies
+- `.env.example`: sample environment file
+- `.env`: local secrets file with real account details
+- `picklocator.txt`: locator notes collected during development
 
-## Windows 从零开始运行
+## Requirements
 
-1. 安装 Python
+- Windows or macOS
+- Python 3.11 or newer
+- Internet access
 
-   下载并安装 Python 3.11 或更新版本：
+## Important notes
+
+- Use your own school account and follow school booking rules.
+- Do not commit `.env`.
+- The current recommended way to use this project is still `python main.py`.
+- Packaging into `.exe` or `.app` is possible later, but source-based usage is simpler and more stable.
+
+## Project root
+
+In this README, `project root` means the folder that contains:
+
+```text
+main.py
+requirements.txt
+README.md
+```
+
+The folder name can be `UNMbooking`, but the instructions below do not depend on a fixed absolute path.
+
+## Windows setup
+
+1. Install Python
+
+   Download Python 3.11 or newer from:
 
    ```text
    https://www.python.org/downloads/
    ```
 
-   安装时建议勾选：
+   During installation, enable:
 
    ```text
    Add python.exe to PATH
    ```
 
-2. 打开项目文件夹
+2. Open a terminal in the project root
 
-   在 `D:\1\booking` 文件夹空白处右键，选择用 PowerShell 或 Terminal 打开。
+   The easiest way is:
 
-   也可以手动进入：
+   - open the project root in File Explorer
+   - right-click inside the folder
+   - open PowerShell or Terminal there
 
-   ```powershell
-   cd D:\1\booking
-   ```
-
-3. 创建虚拟环境
+   Or use:
 
    ```powershell
-   py -3 -m venv .venv
+   cd path\to\UNMbooking
    ```
 
-4. 激活虚拟环境
+3. Create a virtual environment
+
+   ```powershell
+   py -3.11 -m venv .venv
+   ```
+
+4. Activate the virtual environment
 
    ```powershell
    .\.venv\Scripts\Activate.ps1
    ```
 
-   如果 PowerShell 提示脚本执行被禁止，可以先运行：
+   If PowerShell blocks script execution, run this once:
 
    ```powershell
    Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
    ```
 
-   然后重新激活虚拟环境。
+   Then activate `.venv` again.
 
-5. 安装依赖
+5. Install dependencies
 
    ```powershell
    python -m pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
-6. 安装 Playwright Chromium 浏览器
+6. Install Playwright Chromium
 
    ```powershell
    python -m playwright install chromium
    ```
 
-7. 创建 `.env`
+7. Create your `.env`
 
    ```powershell
-   copy .env.example .env
+   Copy-Item .env.example .env
    ```
 
-   然后用记事本打开 `.env`，把里面的占位符改成自己的信息：
+8. Edit `.env`
 
    ```powershell
    notepad .env
    ```
 
-8. 运行程序
+9. Run the app
 
    ```powershell
    python main.py
    ```
 
-## macOS 从零开始运行
+## macOS setup
 
-1. 安装 Python
+1. Install Python 3.11 or newer
 
-   推荐从 Python 官网安装 Python 3.11 或更新版本：
+   Download it from:
 
    ```text
    https://www.python.org/downloads/macos/
    ```
 
-2. 打开 Terminal，并进入项目文件夹
+2. Open Terminal in the project root
 
-   如果项目在 Downloads 里，命令可能类似：
+   Example:
 
    ```bash
-   cd ~/Downloads/booking
+   cd /path/to/UNMbooking
    ```
 
-3. 创建虚拟环境
+3. Create a virtual environment
 
    ```bash
    python3 -m venv .venv
    ```
 
-4. 激活虚拟环境
+4. Activate the virtual environment
 
    ```bash
    source .venv/bin/activate
    ```
 
-5. 安装依赖
+5. Install dependencies
 
    ```bash
    python -m pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
-6. 安装 Playwright Chromium 浏览器
+6. Install Playwright Chromium
 
    ```bash
    python -m playwright install chromium
    ```
 
-7. 创建 `.env`
+7. Create your `.env`
 
    ```bash
    cp .env.example .env
    ```
 
-   然后用文本编辑器打开 `.env` 并填写账号信息。
+8. Edit `.env` with any text editor
 
-8. 运行程序
+9. Run the app
 
    ```bash
    python main.py
    ```
 
-## `.env` 配置方法
+## Sample `.env`
 
-`.env` 用来保存账号信息。不要把 `.env` 发给别人，也不要提交到 Git。
+Copy `.env.example` to `.env`, then replace all placeholder values with your own account details.
 
-最简单的单账号写法：
+Single-account example:
 
 ```dotenv
 ACCOUNT_IDS=MAIN
@@ -173,7 +207,7 @@ MAIN_CONTACT_NO=your_phone_number
 MAIN_FULL_NAME=Your Full Name
 ```
 
-多账号写法：
+Multi-account example:
 
 ```dotenv
 ACCOUNT_IDS=MAIN,FRIEND
@@ -191,50 +225,60 @@ FRIEND_CONTACT_NO=friends_phone_number
 FRIEND_FULL_NAME=Friend Full Name
 ```
 
-说明：
+## `.env` field reference
 
-- `ACCOUNT_IDS` 是账号列表，用英文逗号分隔。
-- 如果 `ACCOUNT_IDS=MAIN,FRIEND`，下面就要写 `MAIN_...` 和 `FRIEND_...`。
-- `USERNAME` 建议只填 Nottingham username，不要加 `@nottingham.edu.my`。
-- `PASSWORD` 是登录密码。
-- `CONTACT_NO` 会填进 booking form 的 contact number。
-- `LABEL` 是 GUI 下拉框里显示的名称。
-- `FULL_NAME` 当前主要作为配置保留项。
+- `ACCOUNT_IDS`: comma-separated list of account IDs
+- `LABEL`: display name shown in the GUI
+- `USERNAME`: Nottingham username, without `@nottingham.edu.my`
+- `PASSWORD`: login password
+- `CONTACT_NO`: contact number used in the booking form
+- `FULL_NAME`: stored in config for account metadata
 
-## 如何使用 GUI
+If `ACCOUNT_IDS=MAIN,FRIEND`, then the file must include both `MAIN_...` and `FRIEND_...` variables.
 
-运行 `python main.py` 后会先出现一个小窗口。
+## How to use the GUI
 
-1. `Account`：选择要使用的账号。
-2. `Facility`：选择 badminton court。
-3. `Check-in`：用 date picker 选开始日期，用右侧下拉框选开始时间。
-4. `Check-out`：用 date picker 选结束日期，用右侧下拉框选结束时间。
-5. `Purpose`：填写用途，例如 `play badminton with friends`。
-6. `Auto click Complete`：
-   - 不勾选：程序会在最后点击 `Complete` 前暂停，适合手动检查。
-   - 勾选：程序会自动点击 `Complete`，适合确认流程稳定后使用。
-7. 点击 `Start Booking`。
+When you run `python main.py`, the app opens a small configuration window first.
 
-当前默认日期是运行当天，默认时间是：
+1. `Account`: choose the account
+2. `Facility`: choose the badminton court
+3. `Booking Date`: choose the date from the date picker
+4. `Check-in Time`: choose the start time from the drop-down list
+5. `Check-out Time`: choose the end time from the drop-down list
+6. `Purpose`: enter the booking purpose
+7. `Auto click Complete`:
+   - unchecked: pause before clicking `Complete`
+   - checked: click `Complete` automatically
+8. Click `Start Booking`
+
+Current default values in the GUI:
 
 ```text
-Check-in: 18:01
-Check-out: 20:00
+Booking date: today
+Check-in time: 18:01
+Check-out time: 20:00
 ```
 
-## 常见问题
+## Time options in the GUI
 
-### 提示 `Missing ACCOUNT_IDS in .env`
+- Check-in times: `07:01` to `21:01`
+- Check-out times: `08:00` to `22:00`
 
-说明没有创建 `.env`，或者 `.env` 不在项目根目录。
+If you want to change those ranges later, edit the time option constants near the top of `main.py`.
 
-请确认项目根目录里有这个文件：
+## Common issues
+
+### `Missing ACCOUNT_IDS in .env`
+
+`.env` is missing, empty, or not located in the project root.
+
+Make sure the project root contains:
 
 ```text
 .env
 ```
 
-并且里面至少有：
+and that the file has at least:
 
 ```dotenv
 ACCOUNT_IDS=MAIN
@@ -242,91 +286,83 @@ MAIN_USERNAME=your_nottingham_username
 MAIN_PASSWORD=your_password
 ```
 
-### 提示 `ModuleNotFoundError`
+### `ModuleNotFoundError`
 
-说明依赖没有装好，先确认虚拟环境已经激活，然后重新安装：
+The virtual environment is not activated, or dependencies were not installed correctly.
+
+Run:
 
 ```powershell
 pip install -r requirements.txt
 ```
 
-macOS 用：
+or on macOS:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 提示 Playwright 找不到浏览器
+### Playwright cannot find Chromium
 
-重新安装 Chromium：
+Install it again:
 
 ```powershell
 python -m playwright install chromium
 ```
 
-macOS 同样使用：
+or on macOS:
 
 ```bash
 python -m playwright install chromium
 ```
 
-### 页面按钮找不到或脚本卡住
+### The page structure changes
 
-这个脚本依赖网页上的按钮名称和页面结构。如果学校网站更新了页面，脚本可能需要跟着更新 locator。
+This script depends on the current labels and structure of the booking website. If the site changes, some locators in `main.py` may need to be updated.
 
-### 最后停在 `Complete` 前面
+### The flow pauses before `Complete`
 
-如果没有勾选 `Auto click Complete`，这是正常行为。请手动检查页面信息；如果确认无误，可以手动点击网页上的 `Complete`，或者下次运行时勾选 `Auto click Complete`。
+This is expected when `Auto click Complete` is not checked.
 
-## 可选：打包成 Windows `.exe`
+## Packaging later
 
-当前最稳的方式仍然是直接运行 `python main.py`。如果要给不会 Python 的 Windows 用户使用，可以后续用 PyInstaller 打包。
+Packaging is possible, but it is not the primary setup path for this repository.
 
-这部分是给开发者使用的打包说明，不是普通用户的日常运行步骤。当前代码使用 `load_dotenv()` 自动查找 `.env`；如果打包后双击程序找不到 `.env`，需要后续把代码改成固定从程序所在文件夹读取 `.env`。
+### Windows `.exe`
 
-在 Windows 上运行：
+In the project root:
 
 ```powershell
-pip install pyinstaller
+.\.venv\Scripts\python.exe -m pip install pyinstaller
 $env:PLAYWRIGHT_BROWSERS_PATH="0"
-python -m playwright install chromium
-python -m PyInstaller --noconfirm --onedir --windowed --name UNMBooking main.py
+.\.venv\Scripts\python.exe -m playwright install chromium
+.\.venv\Scripts\pyinstaller.exe --noconfirm --onedir --windowed --name UNMBooking main.py
 ```
 
-生成结果通常在：
+Typical output:
 
 ```text
 dist\UNMBooking\UNMBooking.exe
 ```
 
-注意：
+### macOS `.app`
 
-- 不建议把真实 `.env` 打包进 `.exe`。
-- 可以把 `.env` 放在程序文件夹旁边，作为本地配置文件使用。
-- Windows 的 `.exe` 只能给 Windows 用，不能给 macOS 用。
-
-## 可选：打包成 macOS `.app`
-
-macOS 需要在 Mac 上单独打包，不能直接使用 Windows 生成的 `.exe`。
-
-这部分同样是给开发者使用的打包说明。当前代码使用 `load_dotenv()` 自动查找 `.env`；如果打包后双击程序找不到 `.env`，需要后续把代码改成固定从程序所在文件夹读取 `.env`。
-
-在 macOS 上运行：
+On macOS, package on a Mac:
 
 ```bash
-pip install pyinstaller
+python -m pip install pyinstaller
 PLAYWRIGHT_BROWSERS_PATH=0 python -m playwright install chromium
-python -m PyInstaller --noconfirm --onedir --windowed --name UNMBooking main.py
+pyinstaller --noconfirm --onedir --windowed --name UNMBooking main.py
 ```
 
-生成结果通常在：
+Typical output:
 
 ```text
 dist/UNMBooking.app
 ```
 
-注意：
+### Packaging caveat
 
-- 未签名的 `.app` 可能会被 macOS 安全机制拦截，需要手动允许打开。
-- 如果要正式分发给很多人，后续应考虑 Apple Developer ID 签名和 notarization。
-- macOS 的 `.app` 只能给 macOS 用，不能给 Windows 用。
+The current code uses `load_dotenv()` and relies on the runtime working directory. That is fine for normal source-based usage from the project root.
+
+If you later want a double-clickable packaged app that always finds `.env` next to the executable, `main.py` should be adjusted to resolve the config file relative to the executable or script location.

@@ -104,9 +104,8 @@ def build_gui(accounts: dict[str, Account]) -> BookingConfig:
 
     account_var = tk.StringVar(value=default_account)
     facility_var = tk.StringVar(value=FACILITY_OPTIONS[0])
-    check_in_date_var = tk.StringVar(value=today_text)
+    booking_date_var = tk.StringVar(value=today_text)
     check_in_time_var = tk.StringVar(value="18:01")
-    check_out_date_var = tk.StringVar(value=today_text)
     check_out_time_var = tk.StringVar(value="20:00")
     purpose_var = tk.StringVar(value="play badminton with friends")
     auto_submit_var = tk.BooleanVar(value=False)
@@ -135,40 +134,33 @@ def build_gui(accounts: dict[str, Account]) -> BookingConfig:
     facility_combo.grid(row=row, column=1, sticky="ew", pady=6)
     row += 1
 
-    ttk.Label(main_frame, text="Check-in").grid(row=row, column=0, sticky="w", pady=6)
-    check_in_frame = ttk.Frame(main_frame)
-    check_in_frame.grid(row=row, column=1, sticky="ew", pady=6)
+    ttk.Label(main_frame, text="Booking Date").grid(row=row, column=0, sticky="w", pady=6)
     DateEntry(
-        check_in_frame,
-        textvariable=check_in_date_var,
+        main_frame,
+        textvariable=booking_date_var,
         date_pattern="yyyy-mm-dd",
-        width=24,
-    ).pack(side="left", fill="x", expand=True)
+        width=42,
+    ).grid(row=row, column=1, sticky="ew", pady=6)
+    row += 1
+
+    ttk.Label(main_frame, text="Check-in Time").grid(row=row, column=0, sticky="w", pady=6)
     ttk.Combobox(
-        check_in_frame,
+        main_frame,
         textvariable=check_in_time_var,
         values=CHECK_IN_TIME_OPTIONS,
         state="readonly",
-        width=12,
-    ).pack(side="left", padx=(8, 0))
+        width=40,
+    ).grid(row=row, column=1, sticky="ew", pady=6)
     row += 1
 
-    ttk.Label(main_frame, text="Check-out").grid(row=row, column=0, sticky="w", pady=6)
-    check_out_frame = ttk.Frame(main_frame)
-    check_out_frame.grid(row=row, column=1, sticky="ew", pady=6)
-    DateEntry(
-        check_out_frame,
-        textvariable=check_out_date_var,
-        date_pattern="yyyy-mm-dd",
-        width=24,
-    ).pack(side="left", fill="x", expand=True)
+    ttk.Label(main_frame, text="Check-out Time").grid(row=row, column=0, sticky="w", pady=6)
     ttk.Combobox(
-        check_out_frame,
+        main_frame,
         textvariable=check_out_time_var,
         values=CHECK_OUT_TIME_OPTIONS,
         state="readonly",
-        width=12,
-    ).pack(side="left", padx=(8, 0))
+        width=40,
+    ).grid(row=row, column=1, sticky="ew", pady=6)
     row += 1
 
     ttk.Label(main_frame, text="Purpose").grid(row=row, column=0, sticky="w", pady=6)
@@ -193,8 +185,8 @@ def build_gui(accounts: dict[str, Account]) -> BookingConfig:
             selected_account_key = account_var.get().split("|")[0].strip()
             account = accounts[selected_account_key]
 
-            check_in_dt = parse_datetime_text(f"{check_in_date_var.get()} {check_in_time_var.get()}")
-            check_out_dt = parse_datetime_text(f"{check_out_date_var.get()} {check_out_time_var.get()}")
+            check_in_dt = parse_datetime_text(f"{booking_date_var.get()} {check_in_time_var.get()}")
+            check_out_dt = parse_datetime_text(f"{booking_date_var.get()} {check_out_time_var.get()}")
 
             if check_out_dt <= check_in_dt:
                 raise ValueError("Check-out must be later than Check-in.")
